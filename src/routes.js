@@ -5,7 +5,7 @@ import Teste from "./screens/Teste";
 import SignUp from "./screens/signUp";
 import Password from "./screens/password";
 import Feed from "./screens/Feed";
-import Post from "./screens/Post";
+import Post from "./modules/Feed/Post";
 
 const AppNavigator = createStackNavigator({
   Login,

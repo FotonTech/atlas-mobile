@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import girl from "../img/girl.png";
 
 import {
   View,
@@ -10,6 +11,42 @@ import {
 } from "react-native";
 import MyButton from "../modules/common/MyButton";
 import Title from "../modules/common/Title";
+import styled from "styled-components";
+
+const Container = styled.View`
+  align-items: center;
+  flex: 1;
+`;
+
+const FormContainer = styled.View`
+  flex: 0.8;
+  justify-content: center;
+`;
+
+const Img = styled.Image`
+  width: 66px;
+  height: 171px;
+`;
+
+const Input = styled.TextInput`
+  width: 305;
+  padding: 12px;
+  font-size: 20px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  background-color: transparent;
+`;
+
+const Subtitle = styled.Text`
+  padding: 5px;
+  font-size: 11px;
+  align-self: flex-end;
+`;
+
+const Click = styled.Text`
+  color: #0755fd;
+  font-weight: bold;
+`;
 
 export default class Password extends Component {
   static navigationOptions = {
@@ -20,12 +57,12 @@ export default class Password extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Title style={styles.title} title="Forgot your password?" />
-        <Image style={styles.img} source={require("../img/girl.png")} />
-        <View style={styles.formContainer}>
+      <Container>
+        <Title style={{ fontSize: 36 }} title="Forgot your password?" />
+        <Img source={girl} />
+        <FormContainer>
           <View style={{ flex: 1, justifyContent: "center" }}>
-            <TextInput style={styles.input} placeholder="email" />
+            <Input placeholder="email" />
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <MyButton
@@ -39,13 +76,13 @@ export default class Password extends Component {
                 this.props.navigation.navigate("Login");
               }}
             >
-              <Text style={styles.subtitle}>
-                Wanna go back? <Text style={styles.click}>Login</Text>
-              </Text>
+              <Subtitle>
+                Wanna go back? <Click>Login</Click>
+              </Subtitle>
             </TouchableOpacity>
           </View>
-        </View>
-      </View>
+        </FormContainer>
+      </Container>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import girl from "../img/girl.png";
 
 import {
   View,
@@ -10,8 +11,48 @@ import {
 } from "react-native";
 
 import NavigationBar from "react-native-navbar";
-import Post from "../modules/common/Post";
+import Post from "../modules/Feed/Post";
 import Icon from "react-native-vector-icons/FontAwesome";
+import styled from "styled-components";
+
+const Container = styled.View`
+  flex: 1;
+  padding: 10px;
+  background-color: #fafafa;
+`;
+
+const SearchBar = styled.View`
+  flex-direction: row;
+  border-radius: 25px;
+  margin: 10px;
+  padding: 5px;
+  height: 50px;
+  background-color: #efefef;
+`;
+
+const FeedBox = styled.View`
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+const Img = styled.Image`
+  align-self: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  border-width: 1px;
+  border-color: #ddd;
+`;
+
+const NewPost = styled.View`
+  height: 90px;
+  width: 305px;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #ddd;
+  background-color: #fff;
+`;
 
 export default class Feed extends Component {
   static navigationOptions = {
@@ -22,25 +63,29 @@ export default class Feed extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.searchBar}>
-          <Icon style={styles.icon} color="#dadada" name="search" size={20} />
+      <Container>
+        <SearchBar>
+          <Icon
+            style={{ alignSelf: "center", margin: 10 }}
+            color="#dadada"
+            name="search"
+            size={20}
+          />
           <TextInput placeholder="Search" style={{ marginLeft: 5 }} />
-        </View>
-        <View style={styles.feedBox}>
-          <Image style={styles.img} source={require("../img/girl.png")} />
+        </SearchBar>
+        <FeedBox>
+          <Img source={girl} />
           <View style={{ width: 10 }} />
-          <View style={styles.newPost}>
+          <NewPost>
             <TextInput
               placeholder="What's on your mind?"
               placeholderTextColor="black"
-              style={styles.feedInput}
             />
-          </View>
-        </View>
+          </NewPost>
+        </FeedBox>
         <Post />
         <NavigationBar
-          style={styles.navBar}
+          style={{ justifyContent: "space-evenly" }}
           leftButton={
             <TouchableOpacity>
               <Icon name="bars" size={20} />
@@ -52,57 +97,7 @@ export default class Feed extends Component {
             </TouchableOpacity>
           }
         />
-      </View>
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "#fafafa"
-  },
-
-  feedBox: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "flex-start"
-  },
-
-  img: {
-    alignSelf: "center",
-    height: 40,
-    width: 40,
-    borderColor: "#ddd",
-    borderWidth: 1,
-    borderRadius: 20
-  },
-
-  searchBar: {
-    flexDirection: "row",
-    borderRadius: 25,
-    margin: 10,
-    padding: 5,
-    height: 50,
-    backgroundColor: "#efefef"
-  },
-
-  icon: {
-    alignSelf: "center",
-    margin: 10
-  },
-
-  newPost: {
-    width: 305,
-    height: 90,
-    borderRadius: 5,
-    borderWidth: 2,
-    borderColor: "#ddd",
-    backgroundColor: "#fff"
-  },
-
-  navBar: {
-    justifyContent: "space-evenly"
-  }
-});

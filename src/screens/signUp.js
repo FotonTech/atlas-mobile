@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import signUpLogo from "../img/SignUp-logo.png";
 
 import {
   View,
@@ -12,6 +13,43 @@ import { bold } from "ansi-colors";
 
 import MyButton from "../modules/common/MyButton";
 import Title from "../modules/common/Title";
+import styled from "styled-components";
+
+const Container = styled.View`
+  align-self: center;
+  justify-content: space-around;
+  flex: 1;
+`;
+
+const FormContainer = styled.View`
+  flex: 0.8;
+  justify-content: center;
+`;
+
+const Img = styled.Image`
+  width: 281px;
+  height: 192px;
+`;
+
+const Input = styled.TextInput`
+  align-self: stretch;
+  padding: 12px;
+  font-size: 20px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  background-color: transparent;
+`;
+
+const Subtitle = styled.Text`
+  padding: 5px;
+  font-size: 11px;
+  align-self: flex-end;
+`;
+
+const Click = styled.Text`
+  color: #0755fd;
+  font-weight: bold;
+`;
 
 export default class SignUp extends Component {
   static navigationOptions = {
@@ -22,24 +60,19 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Title style={styles.title} title="Welcome" />
-        <Image style={styles.img} source={require("../img/SignUp-logo.png")} />
-        <View style={styles.formContainer}>
+      <Container>
+        <Title style={{ fontSize: 40 }} title="Welcome" />
+        <Img source={signUpLogo} />
+        <FormContainer>
           <View style={{ flex: 1.3, justifyContent: "flex-end" }}>
-            <TextInput style={styles.input} placeholder="name" />
+            <Input placeholder="name" />
             <View style={{ height: 20 }} />
-            <TextInput style={styles.input} placeholder="email" />
+            <Input placeholder="email" />
             <View style={{ height: 20 }} />
-            <TextInput
-              secureTextEntry
-              style={styles.input}
-              placeholder="password"
-            />
+            <Input secureTextEntry placeholder="password" />
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <MyButton
-              style={styles.button}
               buttonTxt="Sign Up"
               onPress={() => this.props.navigation.navigate("Teste")}
             />
@@ -48,58 +81,13 @@ export default class SignUp extends Component {
                 this.props.navigation.navigate("Login");
               }}
             >
-              <Text style={styles.subtitle}>
-                Already have an account? <Text style={styles.click}>Login</Text>
-              </Text>
+              <Subtitle>
+                Already have an account? <Click>Login</Click>
+              </Subtitle>
             </TouchableOpacity>
           </View>
-        </View>
-      </View>
+        </FormContainer>
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignSelf: "center",
-    flex: 1,
-    backgroundColor: "#fafafa"
-  },
-
-  title: {
-    fontSize: 36,
-    fontFamily: "Verdana",
-    textAlign: "center",
-    fontWeight: "bold"
-  },
-
-  img: {
-    width: 281,
-    height: 192
-  },
-
-  formContainer: {
-    flex: 0.8,
-    justifyContent: "center"
-  },
-
-  input: {
-    fontSize: 20,
-    borderRadius: 5,
-    borderWidth: 2,
-    width: 305.86,
-    height: 45.23,
-    borderColor: "#ddd",
-    backgroundColor: "transparent"
-  },
-
-  subtitle: {
-    fontSize: 11,
-    alignSelf: "flex-end"
-  },
-
-  click: {
-    color: "#0755FD",
-    fontWeight: "bold"
-  }
-});
