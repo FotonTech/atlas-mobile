@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import NavigationBar from "react-native-navbar";
-import Post from "../common/Post";
+import Post from "../modules/common/Post";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class Feed extends Component {

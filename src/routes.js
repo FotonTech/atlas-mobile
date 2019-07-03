@@ -1,11 +1,11 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 
-import Login from "./pages/Login";
-import Teste from "./pages/Teste";
-import SignUp from "./pages/signUp";
-import Password from "./pages/password";
-import Feed from "./pages/Feed";
-import Post from "./common/Post";
+import Login from "./screens/Login";
+import Teste from "./screens/Teste";
+import SignUp from "./screens/signUp";
+import Password from "./screens/password";
+import Feed from "./screens/Feed";
+import Post from "./screens/Post";
 
 const AppNavigator = createStackNavigator({
   Login,

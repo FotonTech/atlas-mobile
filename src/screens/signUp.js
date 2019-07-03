@@ -8,12 +8,14 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
-import MyButton from "../common/MyButton";
-import Title from "../common/Title";
+import { bold } from "ansi-colors";
 
-export default class Password extends Component {
+import MyButton from "../modules/common/MyButton";
+import Title from "../modules/common/Title";
+
+export default class SignUp extends Component {
   static navigationOptions = {
-    title: "Help"
+    title: "Sign Up"
   };
 
   state = {};
@@ -21,18 +23,25 @@ export default class Password extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Title style={styles.title} title="Forgot your password?" />
-        <Image style={styles.img} source={require("../img/girl.png")} />
+        <Title style={styles.title} title="Welcome" />
+        <Image style={styles.img} source={require("../img/SignUp-logo.png")} />
         <View style={styles.formContainer}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
+          <View style={{ flex: 1.3, justifyContent: "flex-end" }}>
+            <TextInput style={styles.input} placeholder="name" />
+            <View style={{ height: 20 }} />
             <TextInput style={styles.input} placeholder="email" />
+            <View style={{ height: 20 }} />
+            <TextInput
+              secureTextEntry
+              style={styles.input}
+              placeholder="password"
+            />
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <MyButton
-              buttonTxt="Submit"
-              onPress={() => {
-                this.props.navigation.navigate("Teste");
-              }}
+              style={styles.button}
+              buttonTxt="Sign Up"
+              onPress={() => this.props.navigation.navigate("Teste")}
             />
             <TouchableOpacity
               onPress={() => {
@@ -40,7 +49,7 @@ export default class Password extends Component {
               }}
             >
               <Text style={styles.subtitle}>
-                Wanna go back? <Text style={styles.click}>Login</Text>
+                Already have an account? <Text style={styles.click}>Login</Text>
               </Text>
             </TouchableOpacity>
           </View>
@@ -52,7 +61,7 @@ export default class Password extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignSelf: "center",
     flex: 1,
     backgroundColor: "#fafafa"
   },
@@ -65,8 +74,8 @@ const styles = StyleSheet.create({
   },
 
   img: {
-    width: 66,
-    height: 171
+    width: 281,
+    height: 192
   },
 
   formContainer: {
@@ -85,7 +94,6 @@ const styles = StyleSheet.create({
   },
 
   subtitle: {
-    marginTop: 5,
     fontSize: 11,
     alignSelf: "flex-end"
   },
