@@ -56,25 +56,73 @@ export default class SignUp extends Component {
     title: "Sign Up"
   };
 
-  state = {};
+  constructor(props) {
+    super(props);
+  }
+
+  submitHandler = event => {
+    event.preventDefault();
+
+    const requestBody = {
+      query: `
+        mutation {
+          createUser(name: "${this.state.name}", email: "${
+        this.state.email
+      }", password: "${this.state.password}") {
+            _id
+            email
+          }
+        }
+      `
+    };
+    console.log("here");
+    fetch("http://localhost:3000/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  };
+
+  state = {
+    name: "",
+    email: "",
+    password: ""
+  };
 
   render() {
+    const { name, email, password } = this.state;
     return (
       <Container>
         <Title style={{ fontSize: 40 }} title="Welcome" />
         <Img source={signUpLogo} />
         <FormContainer>
           <View style={{ flex: 1.3, justifyContent: "flex-end" }}>
-            <Input placeholder="name" />
+            <Input
+              placeholder="name"
+              value={name}
+              onChangeText={value => this.setState({ name: value })}
+            />
             <View style={{ height: 20 }} />
-            <Input placeholder="email" />
+            <Input
+              placeholder="email"
+              value={email}
+              onChangeText={value => this.setState({ email: value })}
+            />
             <View style={{ height: 20 }} />
-            <Input secureTextEntry placeholder="password" />
+            <Input
+              secureTextEntry
+              placeholder="password"
+              value={password}
+              onChangeText={value => this.setState({ password: value })}
+            />
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <MyButton
               buttonTxt="Sign Up"
-              onPress={() => this.props.navigation.navigate("Teste")}
+              // onPress={() => this.props.navigation.navigate("Teste")}
+              onPress={this.submitHandler}
             />
             <TouchableOpacity
               onPress={() => {
