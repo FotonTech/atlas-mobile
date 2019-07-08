@@ -14,6 +14,7 @@ import NavigationBar from "react-native-navbar";
 import Post from "../modules/Feed/Post";
 import Icon from "react-native-vector-icons/FontAwesome";
 import styled from "styled-components";
+import AuthContext from "../context/auth-context";
 
 const Container = styled.View`
   flex: 1;
@@ -63,41 +64,49 @@ export default class Feed extends Component {
 
   render() {
     return (
-      <Container>
-        <SearchBar>
-          <Icon
-            style={{ alignSelf: "center", margin: 10 }}
-            color="#dadada"
-            name="search"
-            size={20}
-          />
-          <TextInput placeholder="Search" style={{ marginLeft: 5 }} />
-        </SearchBar>
-        <FeedBox>
-          <Img source={girl} />
-          <View style={{ width: 10 }} />
-          <NewPost>
-            <TextInput
-              placeholder="What's on your mind?"
-              placeholderTextColor="black"
-            />
-          </NewPost>
-        </FeedBox>
-        <Post />
-        <NavigationBar
-          style={{ justifyContent: "space-evenly" }}
-          leftButton={
-            <TouchableOpacity>
-              <Icon name="bars" size={20} />
-            </TouchableOpacity>
+      <AuthContext.Consumer>
+        {context => {
+          if (context.token) {
+            return (
+              <Container>
+                <SearchBar>
+                  <Icon
+                    style={{ alignSelf: "center", margin: 10 }}
+                    color="#dadada"
+                    name="search"
+                    size={20}
+                  />
+                  <TextInput placeholder="Search" style={{ marginLeft: 5 }} />
+                </SearchBar>
+                <FeedBox>
+                  <Img source={girl} />
+                  <View style={{ width: 10 }} />
+                  <NewPost>
+                    <TextInput
+                      placeholder="What's on your mind?"
+                      placeholderTextColor="black"
+                    />
+                  </NewPost>
+                </FeedBox>
+                <Post />
+                <NavigationBar
+                  style={{ justifyContent: "space-evenly" }}
+                  leftButton={
+                    <TouchableOpacity>
+                      <Icon name="bars" size={20} />
+                    </TouchableOpacity>
+                  }
+                  rightButton={
+                    <TouchableOpacity>
+                      <Icon name="users" size={20} />
+                    </TouchableOpacity>
+                  }
+                />
+              </Container>
+            );
           }
-          rightButton={
-            <TouchableOpacity>
-              <Icon name="users" size={20} />
-            </TouchableOpacity>
-          }
-        />
-      </Container>
+        }}
+      </AuthContext.Consumer>
     );
   }
 }

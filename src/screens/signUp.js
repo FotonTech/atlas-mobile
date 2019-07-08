@@ -75,7 +75,7 @@ export default class SignUp extends Component {
         }
       `
     };
-    console.log("here");
+
     fetch("http://localhost:3000/graphql", {
       method: "POST",
       body: JSON.stringify(requestBody),
@@ -106,12 +106,14 @@ export default class SignUp extends Component {
             />
             <View style={{ height: 20 }} />
             <Input
+              autoCorrect={false}
               placeholder="email"
               value={email}
               onChangeText={value => this.setState({ email: value })}
             />
             <View style={{ height: 20 }} />
             <Input
+              autoCorrect={false}
               secureTextEntry
               placeholder="password"
               value={password}
@@ -119,11 +121,7 @@ export default class SignUp extends Component {
             />
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <MyButton
-              buttonTxt="Sign Up"
-              // onPress={() => this.props.navigation.navigate("Teste")}
-              onPress={this.submitHandler}
-            />
+            <MyButton buttonTxt="Sign Up" onPress={this.submitHandler} />
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate("Login");
