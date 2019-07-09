@@ -13,7 +13,6 @@ import {
 import styled from "styled-components";
 import MyButton from "../modules/common/MyButton";
 import Title from "../modules/common/Title";
-import { thisExpression } from "@babel/types";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 const screenHeight = Math.round(Dimensions.get("window").height);
@@ -65,10 +64,8 @@ export default class Login extends Component {
   }
 
   state = {
-    email: "",
-    password: "",
-    token: "",
-    userID: ""
+    email: "Teste@teste.com",
+    password: "teste"
   };
 
   submitHandler = async event => {
@@ -77,9 +74,7 @@ export default class Login extends Component {
     const requestBody = {
       query: `
         query {
-          login(email: "${this.state.email}", password: "${
-        this.state.password
-      }"){
+          login(email:"${this.state.email}", password:"${this.state.password}"){
             userID
             token
             tokenExpiration
@@ -94,71 +89,75 @@ export default class Login extends Component {
       headers: {
         "Content-Type": "application/json"
       }
-    });
-    this.props.navigation.navigate("Feed");
+    })
+      .then(res => res.json())
+      .then(res => {
+        const { userID, token } = res.data.login;
+
+        console.log("res ->", res);
+
+        // if (token !== null && userID !== null) {
+        //   this.setState({ token: token, userID: userID });
+        // }
+
+        if (userID && token) {
+          this.props.navigation.navigate("Feed");
+        } else throw new Error("Wrong Credentials!");
+      });
   };
 
-  login = (token, userID, tokenExpiration) => {
-    this.setState({ token: token, userID: userID });
-  };
+  // login = (token, userID, tokenExpiration) => {
+  //   this.setState({ token: token, userID: userID });
+  // };
 
-  logout = () => {
-    this.setState({ token: null, userID: null });
-  };
+  // logout = () => {
+  //   this.setState({ token: null, userID: null });
+  // };
 
   render() {
-    const { email, password, token, userID } = this.state;
+    const { email, password } = this.state;
 
     return (
       <Container>
         <Title style={{ fontSize: 64 }} title="Atlas" />
         <Img source={loginLogo} />
-        <AuthContext.Provider
-          value={{
-            token: this.state.token,
-            userID: this.state.userID,
-            login: this.login,
-            logout: this.logout
-          }}
-        >
-          <FormContainer>
-            <View style={{ flex: 1, justifyContent: "center" }}>
-              <Input
-                placeholder="email"
-                autoCorrect={false}
-                value={email}
-                onChangeText={value => this.setState({ email: value })}
-              />
-              <View style={{ height: 20 }} />
-              <Input
-                secureTextEntry
-                autoCorrect={false}
-                placeholder="password"
-                value={password}
-                onChangeText={value => this.setState({ password: value })}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate("Password");
-                }}
-              >
-                <Subtitle>
-                  <Click>Forgot</Click> your password?
-                </Subtitle>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flex: 1, justifyContent: "flex-end" }}>
-              <MyButton buttonTxt="Login" onPress={this.submitHandler} />
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("SignUp")}
-              >
-                <Subtitle>
-                  Don't have an account yet? <Click>Sign Up</Click>
-                </Subtitle>
-              </TouchableOpacity>
-            </View>
-          </FormContainer>
-        </AuthContext.Provider>
+        <FormContainer>
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Input
+              placeholder="email"
+              autoCorrect={false}
+              value={email}
+              onChangeText={value => this.setState({ email: value })}
+            />
+            <View style={{ height: 20 }} />
+            <Input
+              secureTextEntry
+              autoCorrect={false}
+              placeholder="password"
+              value={password}
+              onChangeText={value => this.setState({ password: value })}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate("Password");
+              }}
+            >
+              <Subtitle>
+                <Click>Forgot</Click> your password?
+              </Subtitle>
+            </TouchableOpacity>
+          </View>
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <MyButton buttonTxt="Login" onPress={this.submitHandler} />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("SignUp")}
+            >
+              <Subtitle>
+                Don't have an account yet? <Click>Sign Up</Click>
+              </Subtitle>
+            </TouchableOpacity>
+          </View>
+        </FormContainer>
       </Container>
     );
   }
