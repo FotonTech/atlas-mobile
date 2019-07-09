@@ -65,11 +65,14 @@ export default class Login extends Component {
 
   state = {
     email: "Teste@teste.com",
-    password: "teste"
+    password: "teste",
+    loading: false
   };
 
   submitHandler = async event => {
     event.preventDefault();
+
+    this.setState({ loading: true });
 
     const requestBody = {
       query: `
@@ -102,6 +105,7 @@ export default class Login extends Component {
 
         if (userID && token) {
           this.props.navigation.navigate("Feed");
+          this.setState({ loading: false });
         } else throw new Error("Wrong Credentials!");
       });
   };
@@ -116,6 +120,7 @@ export default class Login extends Component {
 
   render() {
     const { email, password } = this.state;
+    const buttonText = this.state.loading ? "Loading" : "Login";
 
     return (
       <Container>
@@ -148,7 +153,7 @@ export default class Login extends Component {
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <MyButton buttonTxt="Login" onPress={this.submitHandler} />
+            <MyButton buttonTxt={buttonText} onPress={this.submitHandler} />
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("SignUp")}
             >

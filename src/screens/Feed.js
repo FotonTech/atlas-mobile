@@ -14,7 +14,8 @@ import NavigationBar from "react-native-navbar";
 import Post from "../modules/Feed/Post";
 import Icon from "react-native-vector-icons/FontAwesome";
 import styled from "styled-components";
-import AuthContext from "../context/auth-context";
+
+import MyModal from "../modules/common/MyModal";
 
 const Container = styled.View`
   flex: 1;
@@ -60,7 +61,9 @@ export default class Feed extends Component {
     title: "Feed"
   };
 
-  state = {};
+  state = {
+    isVisible: false
+  };
 
   render() {
     return (
@@ -89,7 +92,13 @@ export default class Feed extends Component {
           style={{ justifyContent: "space-evenly" }}
           leftButton={
             <TouchableOpacity>
-              <Icon name="bars" size={20} />
+              <Icon
+                onPress={() => {
+                  this.setState({ isVisible: true });
+                }}
+                name="bars"
+                size={20}
+              />
             </TouchableOpacity>
           }
           rightButton={
@@ -97,6 +106,13 @@ export default class Feed extends Component {
               <Icon name="users" size={20} />
             </TouchableOpacity>
           }
+        />
+        <MyModal
+          modalContent="Teste"
+          isVisible={this.state.isVisible}
+          onCancel={() => {
+            this.setState({ isVisible: false });
+          }}
         />
       </Container>
     );
