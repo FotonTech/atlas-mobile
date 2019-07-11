@@ -1,22 +1,13 @@
 import React, { Component } from "react";
 import loginLogo from "../img/Login-logo.png";
-import AuthContext from "../context/auth-context";
 
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  Dimensions,
-  AsyncStorage
-} from "react-native";
+import { View, TouchableOpacity, Dimensions } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import styled from "styled-components";
 import MyButton from "../modules/common/MyButton";
 import Title from "../modules/common/Title";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
-const screenHeight = Math.round(Dimensions.get("window").height);
 
 const Container = styled.View`
   align-self: center;
@@ -98,12 +89,11 @@ export default class Login extends Component {
     const { userID, token } = res.data.login;
 
     console.log("res ->", res);
-
     // if (token !== null && userID !== null) {
     //   this.setState({ token: token, userID: userID });
     // }
     if (userID && token) {
-      // await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("token", token);
       this.props.navigation.navigate("Feed");
       this.setState({ loading: false });
     } else throw new Error("Wrong Credentials!");

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
-
+import AsyncStorage from "@react-native-community/async-storage";
 import NavigationBar from "react-native-navbar";
 import Post from "../modules/Feed/Post";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -110,6 +110,10 @@ export default class Feed extends Component {
         <MyModal
           modalContent="Teste"
           isVisible={this.state.isVisible}
+          onConfirm={async () => {
+            await AsyncStorage.removeItem("token");
+            this.props.navigation.replace("Login");
+          }}
           onCancel={() => {
             this.setState({ isVisible: false });
           }}

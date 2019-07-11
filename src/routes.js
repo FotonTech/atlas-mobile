@@ -6,15 +6,22 @@ import SignUp from "./screens/signUp";
 import Password from "./screens/password";
 import Feed from "./screens/Feed";
 import Post from "./modules/Feed/Post";
+import InitialScreen from "./screens/InitialScreen";
 
-const AppNavigator = createStackNavigator({
-  Login,
-  Feed,
-  Post,
-  SignUp,
-  Password,
-  Teste
-});
+const AppNavigator = createStackNavigator(
+  {
+    InitialScreen,
+    Login,
+    Feed,
+    Post,
+    SignUp,
+    Password,
+    Teste
+  },
+  {
+    initialRouteName: "InitialScreen"
+  }
+);
 
 const AppContainer = createAppContainer(AppNavigator);
 

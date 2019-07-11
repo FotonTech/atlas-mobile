@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { TouchableOpacity, Text, View } from "react-native";
+import React from "react";
 
 import styled from "styled-components";
 
@@ -17,12 +16,12 @@ const ButtonTxt = styled.Text`
   color: #fff;
 `;
 
-export default class MyButton extends Component {
-  render() {
-    return (
-      <Button onPress={this.props.onPress}>
-        <ButtonTxt>{this.props.buttonTxt}</ButtonTxt>
-      </Button>
-    );
-  }
-}
+const MyButton = ({ onPress, buttonTxt }) => {
+  return (
+    <Button onPress={onPress}>
+      <ButtonTxt>{buttonTxt}</ButtonTxt>
+    </Button>
+  );
+};
+
+export default MyButton;
