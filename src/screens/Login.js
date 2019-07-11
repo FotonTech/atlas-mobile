@@ -8,7 +8,8 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from "react-native";
 import styled from "styled-components";
 import MyButton from "../modules/common/MyButton";
@@ -86,28 +87,26 @@ export default class Login extends Component {
       `
     };
 
-    await fetch("http://localhost:3000/graphql", {
+    let res = await fetch("http://localhost:3000/graphql", {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: {
         "Content-Type": "application/json"
       }
-    })
-      .then(res => res.json())
-      .then(res => {
-        const { userID, token } = res.data.login;
+    });
+    res = await res.json();
+    const { userID, token } = res.data.login;
 
-        console.log("res ->", res);
+    console.log("res ->", res);
 
-        // if (token !== null && userID !== null) {
-        //   this.setState({ token: token, userID: userID });
-        // }
-
-        if (userID && token) {
-          this.props.navigation.navigate("Feed");
-          this.setState({ loading: false });
-        } else throw new Error("Wrong Credentials!");
-      });
+    // if (token !== null && userID !== null) {
+    //   this.setState({ token: token, userID: userID });
+    // }
+    if (userID && token) {
+      // await AsyncStorage.setItem("token", token);
+      this.props.navigation.navigate("Feed");
+      this.setState({ loading: false });
+    } else throw new Error("Wrong Credentials!");
   };
 
   // login = (token, userID, tokenExpiration) => {
