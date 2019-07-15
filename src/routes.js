@@ -12,14 +12,14 @@ const AppNavigator = createStackNavigator(
   {
     InitialScreen,
     Login,
-    Feed,
     Post,
+    Feed,
     SignUp,
     Password,
     Teste
   },
   {
-    initialRouteName: "InitialScreen"
+    initialRouteName: "Feed"
   }
 );
 

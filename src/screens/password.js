@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import girl from "../img/girl.png";
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TextInput
-} from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import MyButton from "../modules/common/MyButton";
 import Title from "../modules/common/Title";
 import styled from "styled-components";

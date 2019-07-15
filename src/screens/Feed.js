@@ -16,6 +16,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import styled from "styled-components";
 
 import MyModal from "../modules/common/MyModal";
+import { FlatList } from "react-native-gesture-handler";
 
 const Container = styled.View`
   flex: 1;
@@ -48,6 +49,7 @@ const Img = styled.Image`
 `;
 
 const NewPost = styled.View`
+  justify-content: space-between;
   height: 90px;
   width: 305px;
   border-radius: 5px;
@@ -55,6 +57,8 @@ const NewPost = styled.View`
   border-color: #ddd;
   background-color: #fff;
 `;
+
+let postContent = [];
 
 export default class Feed extends Component {
   static navigationOptions = {
@@ -85,30 +89,53 @@ export default class Feed extends Component {
               placeholder="What's on your mind?"
               placeholderTextColor="black"
             />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                padding: 10
+              }}
+            >
+              <TouchableOpacity>
+                <Icon name="image" size={20} />
+              </TouchableOpacity>
+              <View style={{ width: 10 }} />
+              <TouchableOpacity>
+                <Icon name="paper-plane" size={20} />
+              </TouchableOpacity>
+            </View>
           </NewPost>
         </FeedBox>
-        <Post />
-        <NavigationBar
-          style={{ justifyContent: "space-evenly" }}
-          leftButton={
-            <TouchableOpacity>
-              <Icon
-                onPress={() => {
-                  this.setState({ isVisible: true });
-                }}
-                name="bars"
-                size={20}
-              />
-            </TouchableOpacity>
-          }
-          rightButton={
-            <TouchableOpacity>
-              <Icon name="users" size={20} />
-            </TouchableOpacity>
-          }
+        {/* <FlatList> */}
+        <Post
+          userName="Nome Sobrenome"
+          postText="TESTEKKKKKKKKKKKKK sauhquwheuhiuahs Testando pra ver se vai pra
+            outra linha. Foi porra"
         />
+        {/* </FlatList> */}
+        <View style={{ flex: 1, justifyContent: "flex-end" }}>
+          <NavigationBar
+            style={{ justifyContent: "space-evenly" }}
+            leftButton={
+              <TouchableOpacity>
+                <Icon
+                  onPress={() => {
+                    this.setState({ isVisible: true });
+                  }}
+                  name="bars"
+                  size={20}
+                />
+              </TouchableOpacity>
+            }
+            rightButton={
+              <TouchableOpacity>
+                <Icon name="users" size={20} />
+              </TouchableOpacity>
+            }
+          />
+        </View>
         <MyModal
-          modalContent="Teste"
+          modalContent="Logout?"
           isVisible={this.state.isVisible}
           onConfirm={async () => {
             await AsyncStorage.removeItem("token");

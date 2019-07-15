@@ -109,7 +109,7 @@ export default class Login extends Component {
 
   render() {
     const { email, password } = this.state;
-    const buttonText = this.state.loading ? "Loading" : "Login";
+    const buttonText = this.state.loading ? "Loading..." : "Login";
 
     return (
       <Container>

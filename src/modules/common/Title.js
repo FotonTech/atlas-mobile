@@ -8,12 +8,12 @@ const Title2 = styled.Text`
   font-weight: bold;
 `;
 
-export default class Title extends Component {
-  render() {
-    return (
-      <View>
-        <Title2 style={this.props.style}>{this.props.title}</Title2>
-      </View>
-    );
-  }
-}
+const Title = ({ style, title }) => {
+  return (
+    <View>
+      <Title2 style={style}>{title}</Title2>
+    </View>
+  );
+};
+
+export default Title;
