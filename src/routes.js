@@ -19,7 +19,7 @@ const AppNavigator = createStackNavigator(
     Teste
   },
   {
-    initialRouteName: "Feed"
+    initialRouteName: "InitialScreen"
   }
 );
 

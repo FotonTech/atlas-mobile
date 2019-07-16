@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import girl from "../img/girl.png";
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TextInput
-} from "react-native";
+import { View, TouchableOpacity, TextInput, FlatList } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import NavigationBar from "react-native-navbar";
 import Post from "../modules/Feed/Post";
@@ -16,7 +9,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import styled from "styled-components";
 
 import MyModal from "../modules/common/MyModal";
-import { FlatList } from "react-native-gesture-handler";
 
 const Container = styled.View`
   flex: 1;
@@ -56,6 +48,7 @@ const NewPost = styled.View`
   border-width: 2px;
   border-color: #ddd;
   background-color: #fff;
+  margin-bottom: 5px;
 `;
 
 let postContent = [];
@@ -66,8 +59,104 @@ export default class Feed extends Component {
   };
 
   state = {
-    isVisible: false
+    isVisible: false,
+    posts: [],
+    content: "",
+    refreshing: false
   };
+
+  componentDidMount() {
+    this.loadPosts();
+  }
+
+  setTextInput = textInput => {
+    this.textInput = textInput;
+  };
+
+  createPost = async () => {
+    const date = new Date().toISOString();
+    const requestBody = {
+      query: `
+        mutation {
+          createPost(content: "${this.state.content}", date: "${date}") {
+            _id
+            creator{
+              name
+              email
+            }
+          }
+        }
+      `
+    };
+
+    const token = await AsyncStorage.getItem("token");
+    let res = await fetch("http://localhost:3000/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    });
+
+    res = await res.json();
+
+    this.setState({
+      posts: [
+        ...this.state.posts,
+        { ...res.data.createPost, content: this.state.content, date: date }
+      ]
+    });
+    this.textInput.clear();
+  };
+
+  loadPosts = async () => {
+    this.setState({ refreshing: true });
+    const requestBody = {
+      query: `
+      query{
+        post{
+          _id
+          date
+          content
+          creator{
+            name
+            _id
+            email
+          }
+        }
+      }
+      `
+    };
+
+    const token = await AsyncStorage.getItem("token");
+    let res = await fetch("http://localhost:3000/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    });
+
+    res = await res.json();
+
+    const post = [...res.data.post];
+
+    this.setState({ posts: [...post], refreshing: false, content: "" });
+  };
+
+  // renderItem = ({ post }) => {
+  //   console.log("aqui ->", post);
+  //   return (
+  //     <Post
+  //       userName={post.creator.name}
+  //       postText={post.content}
+  //       date={post.date}
+  //       key={post._id}
+  //     />
+  //   );
+  // };
 
   render() {
     return (
@@ -88,6 +177,8 @@ export default class Feed extends Component {
             <TextInput
               placeholder="What's on your mind?"
               placeholderTextColor="black"
+              ref={this.setTextInput}
+              onChangeText={value => this.setState({ content: value })}
             />
             <View
               style={{
@@ -101,18 +192,32 @@ export default class Feed extends Component {
               </TouchableOpacity>
               <View style={{ width: 10 }} />
               <TouchableOpacity>
-                <Icon name="paper-plane" size={20} />
+                <Icon name="paper-plane" size={20} onPress={this.createPost} />
               </TouchableOpacity>
             </View>
           </NewPost>
         </FeedBox>
-        {/* <FlatList> */}
-        <Post
+
+        {/* <Post
           userName="Nome Sobrenome"
-          postText="TESTEKKKKKKKKKKKKK sauhquwheuhiuahs Testando pra ver se vai pra
-            outra linha. Foi porra"
+          postText="Dig dig joy dig joy popoy, vem brincar comigo, dig dig joy dig joy popoy, vem ser meu amigo."
+        /> */}
+        <FlatList
+          data={this.state.posts}
+          keyExtractor={post => post._id}
+          renderItem={post => {
+            return (
+              <Post
+                userName={post.item.creator.name}
+                postText={post.item.content}
+                date={post.item.date}
+                key={post.item._id}
+              />
+            );
+          }}
+          onRefresh={() => console.log("Deu certo")}
+          refreshing={this.state.refreshing}
         />
-        {/* </FlatList> */}
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
           <NavigationBar
             style={{ justifyContent: "space-evenly" }}

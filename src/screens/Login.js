@@ -57,7 +57,7 @@ export default class Login extends Component {
 
   state = {
     email: "Teste@teste.com",
-    password: "teste",
+    password: "1234",
     loading: false
   };
 
@@ -86,14 +86,15 @@ export default class Login extends Component {
       }
     });
     res = await res.json();
+    console.log("res ->", res);
     const { userID, token } = res.data.login;
 
-    console.log("res ->", res);
     // if (token !== null && userID !== null) {
     //   this.setState({ token: token, userID: userID });
     // }
     if (userID && token) {
       await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("userID", userID);
       this.props.navigation.navigate("Feed");
       this.setState({ loading: false });
     } else throw new Error("Wrong Credentials!");

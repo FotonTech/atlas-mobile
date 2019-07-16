@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import girl from "../../img/girl.png";
 
 import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import MyModal from "../../modules/common/MyModal";
 
 import styled from "styled-components";
 
 const Container = styled.View`
-  padding: 10px;
+  padding: 5px;
+  margin-bottom: 2px;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #ddd;
 `;
 
 const FeedBox = styled.View``;
@@ -35,7 +40,6 @@ const Time = styled.Text`
 `;
 
 const FeedInput = styled.View`
-  align-self: center;
   padding: 5px;
   /* width: 305px;
   height: 96px;
@@ -64,7 +68,9 @@ const ReplyBt = styled.TouchableOpacity`
   border-color: #ddd;
 `;
 
-const Post = ({ userName, postText }) => {
+const Post = ({ userName, postText, postDate }) => {
+  const [isVisible, setVisible] = useState(false);
+
   return (
     <Container>
       <View style={{ height: 25 }} />
@@ -75,11 +81,15 @@ const Post = ({ userName, postText }) => {
             <View style={{ width: 15 }} />
             <View style={{ flexDirection: "column" }}>
               <Name>{userName}</Name>
-              <Time>posted 15m ago</Time>
+              <Time>{postDate}</Time>
             </View>
           </Person>
           <TouchableOpacity>
-            <Icon name="ellipsis-h" size={20} />
+            <Icon
+              name="ellipsis-h"
+              size={20}
+              onPress={() => setVisible(true)}
+            />
           </TouchableOpacity>
         </View>
         <View style={{ height: 15 }} />
@@ -98,6 +108,16 @@ const Post = ({ userName, postText }) => {
           </BtWapper>
         </FeedInput>
       </FeedBox>
+      <MyModal
+        modalContent="Delete?"
+        isVisible={isVisible}
+        onConfirm={async () => {
+          setVisible(false);
+        }}
+        onCancel={() => {
+          setVisible(false);
+        }}
+      />
     </Container>
   );
 };
